@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1400" width="1200" height="1400" role="img" aria-labelledby="t d">
+  <title id="t">Onset Host control panel</title>
+  <desc id="d">Illustration of the local control panel at 127.0.0.1:9090. The top card shows the client address, the invite with a Copy invite button, the server identity SHA-256 fingerprint, and Restart server, Start, Stop and Create backup buttons. A metrics card shows process, uptime, reach and router mapping. The Connection form sets reach (LAN or Internet), public IPv4, control TCP port 8080, encrypted voice UDP port 9000, screen share UDP port 9001 and automatic UPnP. The Access and data form sets registration, history retention, backup folder, the first owner setup token, the invite token, call diagnostics and start with Windows. A server log card shows recent backend output.</desc>
+  <defs>
+    <radialGradient id="glow" cx="15%" cy="-8%" r="45%">
+      <stop offset="0" stop-color="#183326"/>
+      <stop offset="1" stop-color="#08080a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15151a"/>
+      <stop offset="1" stop-color="#0f0f11"/>
+    </linearGradient>
+    <clipPath id="inv"><rect x="70" y="253" width="458" height="36"/></clipPath>
+    <symbol id="chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="tick" viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#46c07a"/><path d="M3.5 7.2l2.3 2.3 4.7-4.7" fill="none" stroke="#07110b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+  <style>
+    .t{font-family:Manrope,'Segoe UI',system-ui,sans-serif}
+    .m{font-family:'JetBrains Mono',Consolas,monospace}
+    .card{fill:url(#card);stroke:#ffffff;stroke-opacity:.1}
+    .in{fill:#0c0c0e;stroke:#ffffff;stroke-opacity:.14}
+    .btn{fill:#232327;stroke:#ffffff;stroke-opacity:.2}
+    .lab{fill:#c8c8cf;font-size:12px}
+    .mut{fill:#a0a0a8}
+    .val{fill:#ededf0;font-size:14px}
+  </style>
+
+  <rect x="0.5" y="0.5" width="1199" height="1399" rx="24" fill="#08080a" stroke="#ffffff" stroke-opacity="0.08"/>
+  <rect x="1" y="1" width="1198" height="700" rx="24" fill="url(#glow)"/>
+
+  <!-- Header -->
+  <!-- Onset mark: scripts/brand/app-icon.svg -->
+  <linearGradient id="onsetMarkT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#232327"/><stop offset="1" stop-color="#131316"/></linearGradient>
+  <linearGradient id="onsetMarkB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fe0a6"/><stop offset="1" stop-color="#46c07a"/></linearGradient>
+  <rect x="40" y="40" width="38" height="38" rx="8.55" fill="url(#onsetMarkT)" stroke="#ffffff" stroke-opacity="0.12"/>
+  <rect x="46.93" y="56.62" width="4.75" height="9.5" rx="2.38" fill="url(#onsetMarkB)"/>
+  <rect x="53.26" y="50.29" width="4.75" height="17.42" rx="2.38" fill="url(#onsetMarkB)"/>
+  <rect x="59.99" y="52.67" width="4.75" height="14.25" rx="2.38" fill="url(#onsetMarkB)"/>
+  <rect x="66.32" y="58.21" width="4.75" height="6.33" rx="2.38" fill="url(#onsetMarkB)"/>
+  <text x="90" y="57" class="t" font-size="18" font-weight="700" fill="#ededf0">Onset Host</text>
+  <text x="90" y="75" class="t mut" font-size="12">Local control panel · only this computer can open it</text>
+  <rect x="1010.5" y="42.5" width="149" height="33" rx="16.5" fill="#0d0d10" stroke="#ffffff" stroke-opacity="0.12"/>
+  <circle cx="1030" cy="59" r="8" fill="#46c07a" fill-opacity="0.22"/>
+  <circle cx="1030" cy="59" r="4" fill="#46c07a"/>
+  <text x="1043" y="64" class="t" font-size="14" fill="#ededf0">Server online</text>
+
+  <!-- Hero: address, invite, identity, actions -->
+  <rect x="40.5" y="104.5" width="643" height="369" rx="18" class="card"/>
+  <text x="60" y="134" class="t mut" font-size="14">Client address</text>
+  <text x="60" y="172" class="m" font-size="22" font-weight="500" fill="#ededf0">https://203.0.113.42:8080</text>
+  <text x="60" y="198" class="t mut" font-size="14">LAN access: https://192.168.1.20:8080</text>
+  <rect x="60" y="214" width="604" height="1" fill="#ffffff" fill-opacity="0.08"/>
+  <text x="60" y="242" class="t mut" font-size="14">Invite</text>
+  <rect x="60.5" y="252.5" width="477" height="37" rx="9" class="in"/>
+  <text x="72" y="276" class="m" font-size="13" fill="#ededf0" clip-path="url(#inv)">203.0.113.42:8080#5482880b923bffe4326ef86288ccdac0c60b82b7a8996f10…</text>
+  <rect x="545.5" y="252.5" width="118" height="37" rx="10" class="btn"/>
+  <text x="604.5" y="276" class="t" font-size="14" fill="#ededf0" text-anchor="middle">Copy invite</text>
+  <text x="60" y="318" class="t mut" font-size="12">Server identity (SHA-256)</text>
+  <text x="60" y="337" class="m" font-size="12" fill="#cfd5dd">54:82:88:0B:92:3B:FF:E4:32:6E:F8:62:88:CC:DA:C0:C6:0B:82:B7:A8:99:6F:10:2A:FB:30:60:</text>
+  <text x="60" y="355" class="m" font-size="12" fill="#cfd5dd">02:E4:2A:4C</text>
+  <text x="60" y="380" class="t mut" font-size="12">People paste the invite into the client's server field. The client warns if this server's</text>
+  <text x="60" y="397" class="t mut" font-size="12">identity ever changes.</text>
+  <rect x="60" y="414" width="128" height="37" rx="10" fill="#ededf0"/>
+  <text x="124" y="437.5" class="t" font-size="14" font-weight="700" fill="#08080a" text-anchor="middle">Restart server</text>
+  <g opacity="0.42"><rect x="196.5" y="414.5" width="61" height="36" rx="10" class="btn"/>
+  <text x="227" y="437.5" class="t" font-size="14" fill="#ededf0" text-anchor="middle">Start</text></g>
+  <rect x="265.5" y="414.5" width="59" height="36" rx="10" fill="#e5484d" fill-opacity="0.1" stroke="#e5484d" stroke-opacity="0.3"/>
+  <text x="295" y="437.5" class="t" font-size="14" fill="#ffabb2" text-anchor="middle">Stop</text>
+  <rect x="332.5" y="414.5" width="123" height="36" rx="10" class="btn"/>
+  <text x="394" y="437.5" class="t" font-size="14" fill="#ededf0" text-anchor="middle">Create backup</text>
+
+  <!-- Metrics -->
+  <rect x="700.5" y="104.5" width="459" height="369" rx="18" class="card"/>
+  <g class="t">
+    <rect x="720.5" y="124.5" width="204" height="61" rx="12" fill="#0c0c0e" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="734" y="146" class="mut" font-size="11" letter-spacing="1">PROCESS</text>
+    <text x="734" y="171" class="m" font-size="17" font-weight="600" fill="#ededf0">4812</text>
+    <rect x="935.5" y="124.5" width="204" height="61" rx="12" fill="#0c0c0e" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="949" y="146" class="mut" font-size="11" letter-spacing="1">UPTIME</text>
+    <text x="949" y="171" class="m" font-size="17" font-weight="600" fill="#ededf0">3d</text>
+    <rect x="720.5" y="195.5" width="204" height="83" rx="12" fill="#0c0c0e" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="734" y="217" class="mut" font-size="11" letter-spacing="1">REACH</text>
+    <text x="734" y="242" class="m" font-size="17" font-weight="600" fill="#ededf0">Internet</text>
+    <rect x="935.5" y="195.5" width="204" height="83" rx="12" fill="#0c0c0e" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="949" y="217" class="mut" font-size="11" letter-spacing="1">ROUTER</text>
+    <text x="949" y="242" class="m" font-size="15" font-weight="600" fill="#ededf0">Automatic UPnP ·</text>
+    <text x="949" y="262" class="m" font-size="15" font-weight="600" fill="#ededf0">203.0.113.42</text>
+  </g>
+
+  <!-- Settings form -->
+  <rect x="40.5" y="490.5" width="551" height="867" rx="18" class="card"/>
+  <g class="t">
+    <text x="60" y="524" font-size="14" font-weight="700" fill="#ededf0">Connection</text>
+    <text x="60" y="546" class="mut" font-size="12">Both modes encrypt traffic with this server's own identity; no domain or</text>
+    <text x="60" y="562" class="mut" font-size="12">certificate is needed. Internet mode can also open the ports on your router.</text>
+
+    <text x="60" y="596" class="lab">Reach</text>
+    <rect x="60.5" y="604.5" width="248" height="37" rx="9" class="in"/>
+    <text x="71" y="628" class="val">Internet</text>
+    <use href="#chev" x="282" y="613" width="20" height="20" color="#a0a0a8"/>
+    <text x="322" y="596" class="lab">Public IPv4</text>
+    <rect x="322.5" y="604.5" width="249" height="37" rx="9" class="in" opacity="0.5"/>
+    <text x="333" y="628" font-size="14" fill="#82828b">203.0.113.42</text>
+
+    <text x="60" y="662" class="lab">Control TCP port</text>
+    <rect x="60.5" y="670.5" width="248" height="37" rx="9" class="in"/>
+    <text x="71" y="694" class="val">8080</text>
+    <text x="322" y="662" class="lab">Encrypted voice UDP</text>
+    <rect x="322.5" y="670.5" width="249" height="37" rx="9" class="in"/>
+    <text x="333" y="694" class="val">9000</text>
+
+    <text x="60" y="728" class="lab">Screen share UDP</text>
+    <rect x="60.5" y="736.5" width="248" height="37" rx="9" class="in"/>
+    <text x="71" y="760" class="val">9001</text>
+
+    <use href="#tick" x="60" y="783" width="14" height="14"/>
+    <text x="83" y="795" font-size="14" fill="#d0d0d6">Set up my router automatically with UPnP</text>
+
+    <rect x="60" y="810" width="512" height="64" fill="#46c07a" fill-opacity="0.05"/>
+    <rect x="60" y="810" width="2" height="64" fill="#46c07a"/>
+    <text x="72" y="830" font-size="12" fill="#c8c8cf">The manager maps the control TCP port and both UDP ports on your router</text>
+    <text x="72" y="846" font-size="12" fill="#c8c8cf">with UPnP. Clients pin this server's identity, so no domain or certificate</text>
+    <text x="72" y="862" font-size="12" fill="#c8c8cf">is needed.</text>
+
+    <text x="60" y="904" font-size="14" font-weight="700" fill="#ededf0">Access and data</text>
+    <text x="60" y="926" class="mut" font-size="12">Invite-only registration is the safe default. Zero retention keeps history until</text>
+    <text x="60" y="942" class="mut" font-size="12">it is deleted by a user.</text>
+
+    <text x="60" y="968" class="lab">Registration</text>
+    <rect x="60.5" y="976.5" width="248" height="37" rx="9" class="in"/>
+    <text x="71" y="1000" class="val">Invite token</text>
+    <use href="#chev" x="282" y="985" width="20" height="20" color="#a0a0a8"/>
+    <text x="322" y="968" class="lab">Delete history after days (0 = never)</text>
+    <rect x="322.5" y="976.5" width="249" height="37" rx="9" class="in"/>
+    <text x="333" y="1000" class="val">0</text>
+
+    <text x="60" y="1034" class="lab">Backup folder (optional)</text>
+    <rect x="60.5" y="1042.5" width="511" height="37" rx="9" class="in"/>
+    <text x="71" y="1066" font-size="14" fill="#82828b">Absolute path on a backup drive or network share</text>
+    <text x="60" y="1098" class="mut" font-size="12">Leave empty for local backups. Encrypted archives contain account data and the</text>
+    <text x="60" y="1114" class="mut" font-size="12">server identity. Keep your recovery key separately.</text>
+
+    <text x="60" y="1140" class="lab">First owner setup token</text>
+    <rect x="60.5" y="1148.5" width="438" height="37" rx="9" class="in"/>
+    <text x="71" y="1172" class="m" font-size="14" fill="#ededf0">••••••••••••••••••••••••</text>
+    <rect x="506.5" y="1148.5" width="65" height="37" rx="10" class="btn"/>
+    <text x="539" y="1172" font-size="14" fill="#ededf0" text-anchor="middle">Copy</text>
+
+    <text x="60" y="1206" class="lab">Invite token</text>
+    <rect x="60.5" y="1214.5" width="438" height="37" rx="9" class="in"/>
+    <text x="71" y="1238" class="m" font-size="14" fill="#ededf0">••••••••••••••••••••••••</text>
+    <rect x="506.5" y="1214.5" width="65" height="37" rx="10" class="btn"/>
+    <text x="539" y="1238" font-size="14" fill="#ededf0" text-anchor="middle">Copy</text>
+
+    <use href="#tick" x="60" y="1265" width="14" height="14"/>
+    <text x="83" y="1277" font-size="14" fill="#d0d0d6">Keep call diagnostics</text>
+    <rect x="322.5" y="1265.5" width="13" height="13" rx="3" fill="none" stroke="#ffffff" stroke-opacity="0.35"/>
+    <text x="345" y="1277" font-size="14" fill="#d0d0d6">Start with Windows</text>
+
+    <rect x="60" y="1300" width="144" height="37" rx="10" fill="#ededf0"/>
+    <text x="132" y="1323.5" font-size="14" font-weight="700" fill="#08080a" text-anchor="middle">Save and restart</text>
+  </g>
+
+  <!-- Server log -->
+  <rect x="608.5" y="490.5" width="551" height="867" rx="18" class="card"/>
+  <text x="628" y="524" class="t" font-size="14" font-weight="700" fill="#ededf0">Server log</text>
+  <text x="628" y="546" class="t mut" font-size="12">Recent backend output. Passwords and message contents are not logged.</text>
+  <rect x="628.5" y="562.5" width="511" height="265" rx="12" fill="#0a0a0c" stroke="#ffffff" stroke-opacity="0.08"/>
+  <g class="m" font-size="11" fill="#a0a0a8">
+    <text x="642" y="586">2026/10/01 09:14:02 call telemetry recording to …\data\</text>
+    <text x="642" y="603">telemetry.db, kept 30 days</text>
+    <text x="642" y="620">2026/10/01 09:14:02 voice UDP listening on :9000</text>
+    <text x="642" y="637">2026/10/01 09:14:02 screen WebRTC UDP listening on :9001</text>
+    <text x="642" y="654">(public IP 203.0.113.42)</text>
+    <text x="642" y="671">2026/10/01 09:14:02 control HTTPS/WSS listening on :8080</text>
+    <text x="642" y="688">(server identity SHA-256 54:82:88:0B:92:3B:FF:E4:32:6E:</text>
+    <text x="642" y="705">F8:62:88:CC:DA:C0:C6:0B:82:B7:A8:99:6F:10:2A:FB:30:60:02:</text>
+    <text x="642" y="722">E4:2A:4C)</text>
+    <text x="642" y="739">2026/10/01 09:14:03 127.0.0.1 GET /api/ready 200 41B 2ms</text>
+    <text x="642" y="756">2026/10/01 09:21:47 198.51.100.7 POST /api/auth/login</text>
+    <text x="642" y="773">200 612B 94ms</text>
+  </g>
+  <rect x="628" y="841" width="512" height="50" fill="#ffffff" fill-opacity="0.03"/>
+  <rect x="628" y="841" width="2" height="50" fill="#82828b"/>
+  <text x="640" y="861" class="t" font-size="12" fill="#c8c8cf">Internet mode needs the control TCP port and the voice and screen UDP</text>
+  <text x="640" y="878" class="t" font-size="12" fill="#c8c8cf">ports forwarded to this computer. With UPnP the manager does this for you.</text>
+</svg>

@@ -1,0 +1,40 @@
+Onset Freeware License
+
+Copyright (c) 2026 Fırat Karakaş. All rights reserved.
+
+This license covers the Onset desktop client, Onset Host and their
+installers, as distributed in binary form (the "Software"). The Software is
+free of charge and is not offered for profit.
+
+1. Use. You may download, install and use the Software free of charge, for any
+   lawful purpose, personal or within an organization, on any number of
+   computers.
+
+2. Sharing. You may give others unmodified copies of the official installers,
+   provided you charge nothing for them and keep this license and the
+   third-party notices with them.
+
+3. Restrictions. You may not sell, rent or sublicense the Software, distribute
+   modified copies of it, or remove or alter its copyright notices.
+
+4. Open-source components. The Software includes open-source components. Each
+   is licensed to you under its own license, reproduced in full in
+   THIRD-PARTY-NOTICES.md, which is installed with the Software and published
+   with every release. Nothing in this license limits the rights those
+   licenses give you.
+
+5. Self-hosting. Onset Host runs on a computer you control. Whoever runs
+   a server is responsible for it, for the accounts and content it holds, and
+   for complying with the laws that apply to it.
+
+6. No warranty. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+7. Limitation of liability. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+   USE OR OTHER DEALINGS IN THE SOFTWARE, INCLUDING LOSS OF DATA.
+
+8. Termination. These permissions end automatically if you break the terms
+   above. You must then stop using the Software and delete your copies.
