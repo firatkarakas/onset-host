@@ -5,6 +5,8 @@
 <p align="center">
   <a href="https://github.com/firatkarakas/onset-host/releases/latest"><b>Download the latest release</b></a>
   &nbsp;·&nbsp;
+  <a href="https://onsetvoice.com">Website</a>
+  &nbsp;·&nbsp;
   <a href="https://github.com/firatkarakas/onset-client">Get the desktop app</a>
   &nbsp;·&nbsp;
   <a href="#ports-and-firewall">Ports</a>
@@ -35,6 +37,7 @@ This repository hosts the server installer and its release notes. Downloads are 
 - [Security and privacy](#security-and-privacy)
 - [Troubleshooting](#troubleshooting)
 - [Uninstall](#uninstall)
+- [Support](#support)
 - [License](#license)
 
 ## What you get
@@ -242,6 +245,10 @@ Choose **Stop** in the panel. The control panel process keeps running in the bac
 
 Open **Settings → Apps → Installed apps**, find **Onset Host** and choose **Uninstall**. The uninstaller stops the server, removes its **Start with Windows** entry and the Internet-mode firewall rule, and deletes the program files. Your data in `%LOCALAPPDATA%\Onset Host` (database, uploads, identity, settings, backups stored there) is **kept**, so a reinstall keeps the same identity. Delete that folder yourself to remove everything, after taking a backup if you might need it. Router mappings made with UPnP use a one-hour lease and normally expire on their own; ports you forwarded by hand stay until you remove them in the router.
 
+## Support
+
+Email **support@onsetvoice.com**, or report a bug on the [issue tracker](https://github.com/firatkarakas/onset-client/issues). Please include your Onset Host version (**Settings → Apps → Installed apps**) and the relevant lines from the panel's **Server log**. The log holds no passwords and no message contents, but it shows IP addresses and user names, so look it over before you send it.
+
 ## Related
 
 - **[Onset for Windows](https://github.com/firatkarakas/onset-client)**: the desktop app your people use to connect.
@@ -249,7 +256,7 @@ Open **Settings → Apps → Installed apps**, find **Onset Host** and choose **
 
 ## License
 
-Onset Host is freeware: free to use and not offered for profit. © Fırat Karakaş. All rights reserved. You may share unmodified copies of the official installer as long as you charge nothing for them. The full terms, including the warranty disclaimer, are in [LICENSE.txt](LICENSE.txt).
+This version of Onset Host is freeware: free to use, and you may share unmodified copies of the official installer as long as you charge nothing for them. The license applies to the version it ships with. Later versions may be offered under different terms, and the names and logo are not licensed. © Fırat Karakaş. All rights reserved. The full terms, including the warranty disclaimer, are in [LICENSE.txt](LICENSE.txt).
 
 Onset Host is built on open-source components. Their licenses and full license texts are in `THIRD-PARTY-NOTICES.md`, which is installed next to the program and attached to every release.
 
