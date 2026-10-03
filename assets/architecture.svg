@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" role="img" aria-labelledby="t d">
   <title id="t">How Onset connects</title>
-  <desc id="d">Architecture diagram. Each Onset desktop client talks to your own Onset server over three paths: an HTTPS and WebSocket control channel on TCP 8080 whose self-signed identity the client pins, encrypted Opus voice over UDP 9000 using the GCA3 protocol with ChaCha20-Poly1305, and screen sharing over UDP 9001 using WebRTC with DTLS-SRTP. The server stores data in SQLite on the same PC. A local Server Manager on 127.0.0.1:9090 controls it, and in Internet mode the router's ports are mapped with UPnP. No third-party servers are involved.</desc>
+  <desc id="d">Architecture diagram. Each Onset desktop client reaches your own Onset server on one UDP port, 8080 by default, and that one port carries all three kinds of traffic: the HTTPS and WebSocket control channel over QUIC, secured with TLS 1.3 and the server's self-signed identity, which the client pins; encrypted Opus voice using the GCA4 protocol with ChaCha20-Poly1305; and screen sharing using WebRTC with DTLS-SRTP. On the server they reach control and chat, the voice relay and the screen-share SFU, and data is stored in SQLite on the same PC. A local Server Manager on 127.0.0.1:9090 controls it, and in Internet mode the router forwards UDP 8080, mapped with UPnP or by hand. No third-party servers are involved.</desc>
   <defs>
     <marker id="aw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#ededf0"/></marker>
     <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#46c07a"/></marker>
@@ -20,7 +20,7 @@
 
   <rect x="0.5" y="0.5" width="1199" height="639" rx="24" fill="#08080a" stroke="#ffffff" stroke-opacity="0.08"/>
   <text x="40" y="62" class="t" font-size="22" font-weight="800" fill="#ededf0">How Onset connects</text>
-  <text x="40" y="88" class="t" font-size="14" fill="#a0a0a8">Three separate paths between each desktop client and your server. Default ports shown; all are configurable.</text>
+  <text x="40" y="88" class="t" font-size="14" fill="#a0a0a8">One UDP port carries control, voice and screen sharing between each desktop client and your server. 8080 is the default; it can be changed.</text>
 
   <!-- Clients -->
   <rect x="64.5" y="164.5" width="259" height="299" rx="16" fill="#0f0f11" stroke="#ffffff" stroke-opacity="0.08"/>
@@ -41,18 +41,22 @@
   <text x="62" y="386" class="t" font-size="12.5" fill="#a0a0a8">Native Opus audio engine</text>
   <text x="62" y="406" class="t" font-size="12.5" fill="#a0a0a8">WebRTC screen sharing</text>
 
-  <!-- Paths -->
-  <line x1="338" y1="216" x2="574" y2="216" stroke="#ededf0" stroke-width="2" marker-start="url(#aw)" marker-end="url(#aw)"/>
-  <text x="467" y="204" class="t" font-size="13" font-weight="700" fill="#ededf0" text-anchor="middle">Control · HTTPS / WSS</text>
-  <text x="467" y="236" class="t" font-size="11.5" fill="#a0a0a8" text-anchor="middle">self-signed identity, pinned</text>
+  <!-- One port: a single UDP path that carries all three kinds of traffic -->
+  <rect x="338.5" y="170.5" width="229" height="259" rx="20" fill="#46c07a" fill-opacity="0.04" stroke="#46c07a" stroke-opacity="0.35"/>
+  <rect x="379.5" y="159.5" width="147" height="23" rx="11.5" fill="#08080a" stroke="#46c07a" stroke-opacity="0.35"/>
+  <text x="453" y="175.5" class="t" font-size="12" text-anchor="middle"><tspan class="m" font-weight="700" fill="#7fe0a6">UDP 8080</tspan><tspan fill="#a0a0a8"> · one port</tspan></text>
 
-  <line x1="338" y1="304" x2="574" y2="304" stroke="#46c07a" stroke-width="2.5" marker-start="url(#ag)" marker-end="url(#ag)"/>
-  <text x="467" y="292" class="t" font-size="13" font-weight="700" fill="#7fe0a6" text-anchor="middle">Voice · UDP</text>
-  <text x="467" y="324" class="t" font-size="11.5" fill="#a0a0a8" text-anchor="middle">GCA3 · ChaCha20-Poly1305</text>
+  <line x1="352" y1="216" x2="554" y2="216" stroke="#ededf0" stroke-width="2" marker-start="url(#aw)" marker-end="url(#aw)"/>
+  <text x="453" y="204" class="t" font-size="13" font-weight="700" fill="#ededf0" text-anchor="middle">Control · HTTPS / WSS</text>
+  <text x="453" y="236" class="t" font-size="11.5" fill="#a0a0a8" text-anchor="middle">over QUIC, identity pinned</text>
 
-  <line x1="338" y1="392" x2="574" y2="392" stroke="#a0a0a8" stroke-width="2" stroke-dasharray="7 5" marker-start="url(#am)" marker-end="url(#am)"/>
-  <text x="467" y="380" class="t" font-size="13" font-weight="700" fill="#ededf0" text-anchor="middle">Screen share · UDP</text>
-  <text x="467" y="412" class="t" font-size="11.5" fill="#a0a0a8" text-anchor="middle">WebRTC · DTLS-SRTP</text>
+  <line x1="352" y1="304" x2="554" y2="304" stroke="#46c07a" stroke-width="2.5" marker-start="url(#ag)" marker-end="url(#ag)"/>
+  <text x="453" y="292" class="t" font-size="13" font-weight="700" fill="#7fe0a6" text-anchor="middle">Voice · GCA4</text>
+  <text x="453" y="324" class="t" font-size="11.5" fill="#a0a0a8" text-anchor="middle">Opus · ChaCha20-Poly1305</text>
+
+  <line x1="352" y1="392" x2="554" y2="392" stroke="#a0a0a8" stroke-width="2" stroke-dasharray="7 5" marker-start="url(#am)" marker-end="url(#am)"/>
+  <text x="453" y="380" class="t" font-size="13" font-weight="700" fill="#ededf0" text-anchor="middle">Screen share · WebRTC</text>
+  <text x="453" y="412" class="t" font-size="11.5" fill="#a0a0a8" text-anchor="middle">DTLS-SRTP</text>
 
   <!-- Server -->
   <rect x="580.5" y="120.5" width="339" height="419" rx="18" fill="#131316" stroke="#ffffff" stroke-opacity="0.12"/>
@@ -62,17 +66,14 @@
 
   <rect x="600.5" y="184.5" width="299" height="63" rx="12" fill="#1a1a1d" stroke="#ffffff" stroke-opacity="0.08"/>
   <text x="618" y="211" class="t" font-size="14" font-weight="700" fill="#ededf0">Control &amp; chat</text>
-  <text x="884" y="211" class="m" font-size="12" fill="#c8c8cf" text-anchor="end">TCP 8080</text>
   <text x="618" y="232" class="t" font-size="12" fill="#a0a0a8">accounts · rooms · messages · files</text>
 
   <rect x="600.5" y="272.5" width="299" height="63" rx="12" fill="#1a1a1d" stroke="#46c07a" stroke-opacity="0.45"/>
   <text x="618" y="299" class="t" font-size="14" font-weight="700" fill="#ededf0">Voice relay</text>
-  <text x="884" y="299" class="m" font-size="12" fill="#7fe0a6" text-anchor="end">UDP 9000</text>
   <text x="618" y="320" class="t" font-size="12" fill="#a0a0a8">re-encrypts for each listener</text>
 
   <rect x="600.5" y="360.5" width="299" height="63" rx="12" fill="#1a1a1d" stroke="#ffffff" stroke-opacity="0.08"/>
   <text x="618" y="387" class="t" font-size="14" font-weight="700" fill="#ededf0">Screen-share SFU</text>
-  <text x="884" y="387" class="m" font-size="12" fill="#c8c8cf" text-anchor="end">UDP 9001</text>
   <text x="618" y="408" class="t" font-size="12" fill="#a0a0a8">Pion WebRTC · forwards to viewers</text>
 
   <rect x="600.5" y="448.5" width="299" height="71" rx="12" fill="#0f0f11" stroke="#ffffff" stroke-opacity="0.08"/>
@@ -99,9 +100,9 @@
   <use href="#i-router" x="980" y="372" width="24" height="24" color="#ededf0"/>
   <text x="1012" y="390" class="t" font-size="14.5" font-weight="700" fill="#ededf0">Your router</text>
   <text x="980" y="416" class="t" font-size="12" fill="#82828b">Internet mode only</text>
-  <text x="980" y="444" class="t" font-size="12.5" fill="#c8c8cf">UPnP maps TCP 8080</text>
-  <text x="980" y="464" class="t" font-size="12.5" fill="#c8c8cf">and UDP 9000, 9001,</text>
-  <text x="980" y="484" class="t" font-size="12.5" fill="#c8c8cf">or forward them by hand</text>
+  <text x="980" y="444" class="t" font-size="12.5" fill="#c8c8cf">UPnP maps UDP 8080,</text>
+  <text x="980" y="464" class="t" font-size="12.5" fill="#c8c8cf">or forward it by hand.</text>
+  <text x="980" y="484" class="t" font-size="12.5" fill="#c8c8cf">No other port is needed.</text>
 
   <!-- No third parties -->
   <rect x="40.5" y="560.5" width="1119" height="51" rx="14" fill="#46c07a" fill-opacity="0.07" stroke="#46c07a" stroke-opacity="0.35"/>
