@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="1200" height="620" role="img" aria-labelledby="t d">
   <title id="t">Ports and network paths</title>
-  <desc id="d">Network diagram. People on the internet connect to the router's public IPv4 address. The router forwards TCP 8080, UDP 9000 and UDP 9001 to the server PC at a LAN address such as 192.168.1.20, either automatically with UPnP or by manual forwarding. People on the same LAN connect to the server PC directly. On the server PC, TCP 8080 carries the HTTPS and WSS control channel, UDP 9000 carries encrypted GCA3 voice, UDP 9001 carries WebRTC screen sharing, and TCP 9090 is the control panel, reachable only from 127.0.0.1 and never forwarded. Without a public IPv4 address, for example behind CGNAT, the server cannot be reached directly from outside.</desc>
+  <desc id="d">Network diagram. People on the internet connect to the router's public IPv4 address, which the control panel finds automatically. The router forwards one port, UDP 8080, to the server PC at a LAN address such as 192.168.1.20, either automatically with UPnP or by manual forwarding; behind two routers it is forwarded on both. People on the same LAN connect to the server PC directly. On the server PC, UDP 8080 carries all client traffic: the HTTPS and WSS control channel over QUIC, encrypted GCA4 voice and WebRTC screen sharing with DTLS-SRTP. TCP 9090 is the control panel, reachable only from 127.0.0.1 and never forwarded. TCP 8080 also listens, for the manager on that PC and to tell outdated apps to update; it needs no forwarding. Without a public IPv4 address, for example behind CGNAT or other NAT run by the provider, the server cannot be reached directly from outside.</desc>
   <defs>
     <marker id="aw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#ededf0"/></marker>
     <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="3.8" ry="9"/><path d="M3 12h18"/></g></symbol>
@@ -20,7 +20,7 @@
 
   <rect x="0.5" y="0.5" width="1199" height="619" rx="24" fill="#08080a" stroke="#ffffff" stroke-opacity="0.08"/>
   <text x="40" y="62" class="t" font-size="22" font-weight="800" fill="#ededf0">Ports and network paths</text>
-  <text x="40" y="88" class="t" font-size="14" fill="#a0a0a8">Default ports shown. Each one can be changed in the control panel.</text>
+  <text x="40" y="88" class="t" font-size="14" fill="#a0a0a8">One UDP port carries everything. 8080 is the default; you can change it in the control panel.</text>
 
   <!-- Internet side -->
   <rect x="40.5" y="130.5" width="249" height="169" rx="16" class="box"/>
@@ -37,14 +37,11 @@
   <text x="436" y="157" class="t" font-size="15" font-weight="700" fill="#ededf0">Your router</text>
   <text x="400" y="186" class="m" font-size="12" fill="#c8c8cf">public IPv4 203.0.113.42</text>
   <text x="400" y="212" class="t" font-size="12.5" fill="#a0a0a8">UPnP (automatic) or manual forwarding</text>
-  <g class="m" font-size="12.5">
-    <rect x="400" y="228" width="40" height="22" rx="6" class="tcp"/><text x="420" y="243.5" fill="#ededf0" text-anchor="middle" font-size="11">TCP</text>
-    <text x="452" y="244" fill="#ededf0">8080  →  192.168.1.20</text>
-    <rect x="400" y="262" width="40" height="22" rx="6" class="udp"/><text x="420" y="277.5" fill="#7fe0a6" text-anchor="middle" font-size="11">UDP</text>
-    <text x="452" y="278" fill="#ededf0">9000  →  192.168.1.20</text>
-    <rect x="400" y="296" width="40" height="22" rx="6" class="udp"/><text x="420" y="311.5" fill="#7fe0a6" text-anchor="middle" font-size="11">UDP</text>
-    <text x="452" y="312" fill="#ededf0">9001  →  192.168.1.20</text>
-  </g>
+  <rect x="400.5" y="226.5" width="279" height="61" rx="12" fill="#1a1a1d" stroke="#46c07a" stroke-opacity="0.4"/>
+  <rect x="414" y="237" width="40" height="22" rx="6" class="udp"/><text x="434" y="252.5" class="m" font-size="11" fill="#7fe0a6" text-anchor="middle">UDP</text>
+  <text x="466" y="253" class="m" fill="#ededf0"><tspan font-size="15" font-weight="700">8080</tspan><tspan font-size="12.5" fill="#c8c8cf">  →  192.168.1.20</tspan></text>
+  <text x="414" y="277" class="t" font-size="12" fill="#a0a0a8">the only port to forward</text>
+  <text x="400" y="314" class="t" font-size="12.5" fill="#c8c8cf">Behind two routers? Forward it on both.</text>
   <text x="400" y="346" class="t" font-size="11.5" fill="#82828b">UPnP leases last 1 hour and renew every 20 minutes</text>
 
   <line x1="706" y1="215" x2="784" y2="215" stroke="#ededf0" stroke-width="2" marker-start="url(#aw)" marker-end="url(#aw)"/>
@@ -64,34 +61,33 @@
   <text x="810" y="176" class="m" font-size="12" fill="#c8c8cf">LAN address 192.168.1.20</text>
 
   <g class="t">
-    <rect x="810.5" y="192.5" width="329" height="67" rx="12" fill="#1a1a1d" stroke="#ffffff" stroke-opacity="0.08"/>
-    <rect x="824" y="206" width="40" height="22" rx="6" class="tcp"/><text x="844" y="221.5" class="m" font-size="11" fill="#ededf0" text-anchor="middle">TCP</text>
+    <rect x="810.5" y="192.5" width="329" height="143" rx="12" fill="#1a1a1d" stroke="#46c07a" stroke-opacity="0.4"/>
+    <rect x="824" y="206" width="40" height="22" rx="6" class="udp"/><text x="844" y="221.5" class="m" font-size="11" fill="#7fe0a6" text-anchor="middle">UDP</text>
     <text x="876" y="222" class="m" font-size="15" font-weight="700" fill="#ededf0">8080</text>
-    <text x="930" y="222" font-size="13.5" font-weight="700" fill="#ededf0">Control</text>
-    <text x="824" y="247" font-size="12" fill="#a0a0a8">HTTPS / WSS · sign-in, chat, files</text>
+    <text x="930" y="222" font-size="13.5" font-weight="700" fill="#ededf0">All client traffic</text>
+    <line x1="826" y1="252" x2="846" y2="252" stroke="#ededf0" stroke-width="2" stroke-linecap="round"/>
+    <text x="856" y="256" font-size="12.5" font-weight="700" fill="#ededf0">Control</text>
+    <text x="930" y="256" font-size="12" fill="#a0a0a8">HTTPS / WSS over QUIC</text>
+    <line x1="826" y1="280" x2="846" y2="280" stroke="#46c07a" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="856" y="284" font-size="12.5" font-weight="700" fill="#7fe0a6">Voice</text>
+    <text x="930" y="284" font-size="12" fill="#a0a0a8">GCA4 · ChaCha20-Poly1305</text>
+    <line x1="826" y1="308" x2="846" y2="308" stroke="#a0a0a8" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="856" y="312" font-size="12.5" font-weight="700" fill="#ededf0">Screen</text>
+    <text x="930" y="312" font-size="12" fill="#a0a0a8">WebRTC · DTLS-SRTP</text>
 
-    <rect x="810.5" y="269.5" width="329" height="67" rx="12" fill="#1a1a1d" stroke="#46c07a" stroke-opacity="0.4"/>
-    <rect x="824" y="283" width="40" height="22" rx="6" class="udp"/><text x="844" y="298.5" class="m" font-size="11" fill="#7fe0a6" text-anchor="middle">UDP</text>
-    <text x="876" y="299" class="m" font-size="15" font-weight="700" fill="#ededf0">9000</text>
-    <text x="930" y="299" font-size="13.5" font-weight="700" fill="#ededf0">Voice</text>
-    <text x="824" y="324" font-size="12" fill="#a0a0a8">GCA3 · Opus, ChaCha20-Poly1305</text>
+    <rect x="810.5" y="349.5" width="329" height="67" rx="12" fill="#0f0f11" stroke="#ffffff" stroke-opacity="0.08" stroke-dasharray="4 3"/>
+    <rect x="824" y="363" width="40" height="22" rx="6" class="tcp"/><text x="844" y="378.5" class="m" font-size="11" fill="#ededf0" text-anchor="middle">TCP</text>
+    <text x="876" y="379" class="m" font-size="15" font-weight="700" fill="#ededf0">9090</text>
+    <text x="930" y="379" font-size="13.5" font-weight="700" fill="#ededf0">Control panel</text>
+    <use href="#i-lock" x="823" y="392" width="14" height="14" color="#a0a0a8"/>
+    <text x="843" y="404" font-size="12" fill="#a0a0a8">127.0.0.1 only · never forward it</text>
 
-    <rect x="810.5" y="346.5" width="329" height="67" rx="12" fill="#1a1a1d" stroke="#ffffff" stroke-opacity="0.08"/>
-    <rect x="824" y="360" width="40" height="22" rx="6" class="udp"/><text x="844" y="375.5" class="m" font-size="11" fill="#7fe0a6" text-anchor="middle">UDP</text>
-    <text x="876" y="376" class="m" font-size="15" font-weight="700" fill="#ededf0">9001</text>
-    <text x="930" y="376" font-size="13.5" font-weight="700" fill="#ededf0">Screen share</text>
-    <text x="824" y="401" font-size="12" fill="#a0a0a8">WebRTC · DTLS-SRTP</text>
-
-    <rect x="810.5" y="423.5" width="329" height="67" rx="12" fill="#0f0f11" stroke="#ffffff" stroke-opacity="0.08" stroke-dasharray="4 3"/>
-    <rect x="824" y="437" width="40" height="22" rx="6" class="tcp"/><text x="844" y="452.5" class="m" font-size="11" fill="#ededf0" text-anchor="middle">TCP</text>
-    <text x="876" y="453" class="m" font-size="15" font-weight="700" fill="#ededf0">9090</text>
-    <text x="930" y="453" font-size="13.5" font-weight="700" fill="#ededf0">Control panel</text>
-    <use href="#i-lock" x="823" y="466" width="14" height="14" color="#a0a0a8"/>
-    <text x="843" y="478" font-size="12" fill="#a0a0a8">127.0.0.1 only · never forward it</text>
+    <text x="824" y="446" font-size="11.5" fill="#82828b"><tspan class="m">TCP 8080</tspan> also listens, for the manager and to tell</text>
+    <text x="824" y="464" font-size="11.5" fill="#82828b">outdated apps to update. It needs no forwarding.</text>
   </g>
 
   <!-- CGNAT warning -->
   <rect x="40.5" y="546.5" width="1119" height="47" rx="14" fill="#e5484d" fill-opacity="0.08" stroke="#e5484d" stroke-opacity="0.4"/>
   <use href="#i-warn" x="58" y="558" width="22" height="22" color="#ff8a8d"/>
-  <text x="92" y="575" class="t" font-size="13.5" fill="#c8c8cf"><tspan font-weight="700" fill="#ff8a8d">No public IPv4?</tspan> Behind CGNAT (100.64.0.0/10) or a router with a private WAN address, people outside your network cannot reach the server directly.</text>
+  <text x="92" y="575" class="t" font-size="13.5" fill="#c8c8cf"><tspan font-weight="700" fill="#ff8a8d">No public IPv4?</tspan> Behind CGNAT (100.64.0.0/10) or other NAT run by your provider, people outside your network cannot reach the server directly.</text>
 </svg>
