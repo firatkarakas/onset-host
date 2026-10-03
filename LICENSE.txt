@@ -3,8 +3,10 @@ Onset Freeware License
 Copyright (c) 2026 Fırat Karakaş. All rights reserved.
 
 This license covers the Onset desktop client, Onset Host and their
-installers, as distributed in binary form (the "Software"). The Software is
-free of charge and is not offered for profit.
+installers, as distributed in binary form (the "Software"). It applies to the
+version of the Software it is distributed with. This version of the Software
+is provided free of charge. Copies you receive under this license stay under
+it: later changes to the terms do not take these rights away from you.
 
 1. Use. You may download, install and use the Software free of charge, for any
    lawful purpose, personal or within an organization, on any number of
@@ -27,14 +29,24 @@ free of charge and is not offered for profit.
    a server is responsible for it, for the accounts and content it holds, and
    for complying with the laws that apply to it.
 
-6. No warranty. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+6. Later versions. The author may offer later versions of the Software under
+   different terms, including paid licenses, usage limits or separate
+   commercial terms. Those terms apply only to those later versions. They do
+   not change this license for the version you received it with, and nothing
+   here promises that any later version will be free of charge.
+
+7. Trademarks. The names "Onset" and "Onset Host" and the Onset logo are not
+   licensed to you. This license gives you no right to use them, except to
+   refer to the Software truthfully.
+
+8. No warranty. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
-7. Limitation of liability. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+9. Limitation of liability. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
    OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
    USE OR OTHER DEALINGS IN THE SOFTWARE, INCLUDING LOSS OF DATA.
 
-8. Termination. These permissions end automatically if you break the terms
-   above. You must then stop using the Software and delete your copies.
+10. Termination. These permissions end automatically if you break the terms
+    above. You must then stop using the Software and delete your copies.
