@@ -42,15 +42,15 @@ This repository hosts the server installer and its release notes. Downloads are 
 
 ## What you get
 
-- **The server**: accounts, roles and moderation, persistent text rooms, direct messages, file storage, an encrypted voice relay (GCA3 over UDP) and a WebRTC forwarding unit (SFU) for screen sharing. Data is stored in SQLite on the same PC.
-- **A local control panel** at `http://127.0.0.1:9090`, opened by the **Onset Host** shortcut. Use it to start, stop and restart the server, choose LAN or Internet mode, set ports, manage the owner and invite tokens, choose the registration policy and message retention, turn call diagnostics on or off, start with Windows, read the server log and make encrypted backups on a schedule or on demand. It also shows the server's identity fingerprint and a ready-to-share invite.
-- **Automatic router setup** in Internet mode. UPnP finds your public IPv4 address and maps the control and media ports. Manual port forwarding also works.
+- **The server**: accounts, roles and moderation, persistent text rooms, direct messages, file storage, an encrypted voice relay (GCA4 over UDP) and a WebRTC forwarding unit (SFU) for screen sharing. Everything is reached on **one UDP port**. Data is stored in SQLite on the same PC.
+- **A local control panel** at `http://127.0.0.1:9090`, opened by the **Onset Host** shortcut. Use it to start, stop and restart the server, choose LAN or Internet mode, set the port, manage the owner and invite tokens, choose the registration policy and message retention, turn call diagnostics on or off, start with Windows, read the server log and make encrypted backups on a schedule or on demand. It also shows the server's identity fingerprint and a ready-to-share invite.
+- **Automatic router setup** in Internet mode. UPnP finds your public IPv4 address and maps the one UDP port. Manual port forwarding also works, and then the server finds your public address by itself.
 - **Scheduled, encrypted backups** (`.gcb`, AES-GCM) with automatic pruning. The key is protected with Windows DPAPI, and you can export a recovery key.
 - **Self-healing.** If the server process crashes, the panel restarts it with backoff, and stops trying (with a clear message) if it keeps crashing. Logs rotate on their own, and a restart tells connected apps to reconnect.
 - **Version safety.** Apps older than this server are told to update instead of joining a call that cannot work.
 
 <p align="center">
-  <img src="assets/architecture.svg" alt="Diagram: each desktop client talks to your Onset server over three paths: HTTPS and WSS control on TCP 8080 with a pinned self-signed identity, GCA3 encrypted voice on UDP 9000, and WebRTC screen sharing with DTLS-SRTP on UDP 9001. The server stores data in SQLite on the same PC. The Server Manager on 127.0.0.1:9090 controls it, and in Internet mode the router's ports are mapped with UPnP. No third-party servers are involved." width="100%">
+  <img src="assets/architecture.svg" alt="Diagram: each desktop client talks to your Onset server on one UDP port, 8080 by default, which carries HTTPS and WSS control over QUIC with a pinned self-signed identity, GCA4 encrypted voice, and WebRTC screen sharing with DTLS-SRTP. The server stores data in SQLite on the same PC. The Server Manager on 127.0.0.1:9090 controls it, and in Internet mode the router forwards UDP 8080, mapped with UPnP or by hand. No third-party servers are involved." width="100%">
 </p>
 
 ## Requirements
@@ -59,7 +59,7 @@ This repository hosts the server installer and its release notes. Downloads are 
 - A PC that stays on while people use the server.
 - **LAN mode**: the people connecting are on the same local network.
 - **Internet mode**: a **public IPv4 address** on your router, plus a router with UPnP enabled or one where you can forward ports yourself. If your provider uses carrier-grade NAT (CGNAT), you cannot host directly. See [No public IPv4](#troubleshooting).
-- Everyone connecting uses the Onset desktop app **1.0** ([download](https://github.com/firatkarakas/onset-client/releases/latest)).
+- Everyone connecting uses the Onset desktop app **1.0.5 or newer** ([download](https://github.com/firatkarakas/onset-client/releases/latest)). Older apps are told to update; the app updates itself.
 
 ## Install
 
@@ -71,7 +71,7 @@ This repository hosts the server installer and its release notes. Downloads are 
 ## First start
 
 <p align="center">
-  <img src="assets/invite-flow.svg" alt="Three steps: 1, host by installing Onset Host and opening its control panel; 2, click Copy invite, which gives an address such as 203.0.113.42:8080 followed by a hash sign and the server's SHA-256 fingerprint; 3, people paste the invite into the desktop app's Server address field, and the app checks and remembers the fingerprint." width="100%">
+  <img src="assets/invite-flow.svg" alt="Three steps: 1, host by installing Onset Host and opening its control panel; 2, click Copy invite, which gives an address such as 203.0.113.42:8080 followed by a hash sign and the server's SHA-256 fingerprint; 3, people paste the invite into the desktop app's Server address field, the app reports that 203.0.113.42:8080 answered, and it checks and remembers the fingerprint." width="100%">
 </p>
 
 1. **Open the shortcut.** It starts the server in the background and opens the control panel in your browser. The server begins in **LAN mode**, with invite-only registration and history kept indefinitely. Opening the shortcut again just reopens the panel.
@@ -82,7 +82,7 @@ This repository hosts the server installer and its release notes. Downloads are 
 ## The control panel
 
 <p align="center">
-  <img src="assets/control-panel.svg" alt="Illustration of the control panel. The top card shows the client address https://203.0.113.42:8080, the invite with a Copy invite button, the server identity SHA-256 fingerprint, and Restart server, Start, Stop and Create backup buttons. A side card shows process, uptime, reach and router mapping. Below are the Connection form (reach, public IPv4, control TCP port 8080, encrypted voice UDP 9000, screen share UDP 9001, automatic UPnP), the Access and data form (registration, history retention, backup folder, first owner setup token, invite token, call diagnostics, start with Windows) and the server log." width="100%">
+  <img src="assets/control-panel.svg" alt="Illustration of the control panel. The top card shows the client address https://203.0.113.42:8080, the invite with a Copy invite button, the server identity SHA-256 fingerprint, and Restart server, Start, Stop and Create backup buttons. A side card shows process, uptime, reach and router mapping. Below are the Connection form (reach, public IPv4 found automatically, the one UDP port 8080, automatic UPnP, and a note that UPnP forwards UDP 8080 and TCP 8080, which tells outdated apps to update), the Access and data form (registration, history retention, backup folder, first owner setup token, invite token, call diagnostics, start with Windows) and the server log, whose start-up lines say UDP 8080 carries QUIC control, voice and screen sharing." width="100%">
 </p>
 
 The panel listens only on `127.0.0.1:9090`, so no other device can open it. Changes take effect with **Save and restart**, which briefly interrupts calls if the server is running.
@@ -90,9 +90,9 @@ The panel listens only on `127.0.0.1:9090`, so no other device can open it. Chan
 | Setting | What it does |
 | --- | --- |
 | **Reach** | *This network (LAN)* serves devices on your private network. *Internet* also accepts people from outside it. |
-| **Public IPv4** | Filled in automatically when UPnP is on. Enter it yourself if you forward ports by hand. |
-| **Control TCP port** / **Encrypted voice UDP** / **Screen share UDP** | Default 8080 / 9000 / 9001. The two UDP ports must be different. |
-| **Set up my router automatically with UPnP** | Maps the three ports on your router in Internet mode. |
+| **Public IPv4** | Leave it empty: UPnP fills it in, and without UPnP the server finds it by itself and checks it every ten minutes. An address you type always wins. |
+| **Port (UDP)** | Default 8080. Sign-in, chat, files, voice and screen sharing all use this UDP port, and the invite names it. The server also listens on the same number over TCP, for the panel and to tell outdated apps to update. |
+| **Set up my router automatically with UPnP** | Maps the UDP port on your router in Internet mode, and the TCP port of the same number, which tells outdated apps to update. |
 | **Registration** | *Invite token* (default): new accounts need the invite token. *Closed*: nobody new can register. *Open*: anyone who can reach the server can register. |
 | **Delete history after days** | `0` (default) keeps history until users delete it. Any other number deletes older messages automatically. |
 | **Backup folder** | Optional absolute path, for example another drive or a network share. If left empty, backups go to the `backups` folder in the server's data folder. |
@@ -106,25 +106,25 @@ The panel listens only on `127.0.0.1:9090`, so no other device can open it. Chan
 
 **Internet mode** makes the server reachable at your public IPv4 address:
 
-- With **UPnP** on (the default), the server finds your public address and maps the control TCP port and both UDP ports on your router. The mappings last one hour and are renewed every 20 minutes while the server runs. Existing mappings that belong to another device are never overwritten; the panel reports the conflict instead.
-- Without UPnP, forward the three ports to this PC yourself, enter your public IPv4 address in the panel, and save.
+- With **UPnP** on (the default), the server finds your public address and maps the UDP port on your router, plus the TCP port of the same number, which only tells outdated apps to update. The mappings last one hour and is renewed every 20 minutes while the server runs. Existing mappings that belong to another device are never overwritten; the panel reports the conflict instead.
+- Without UPnP, forward the UDP port (8080 by default) to this PC yourself; behind two routers, forward it on both. Leave **Public IPv4** empty and the server finds your public address by itself: it asks the project's website (`onsetvoice.com`, served by Cloudflare) which address the request came from, at start and every ten minutes. Nothing else is sent. If the address changes, screen sharing follows it without a restart.
+- Changing **Reach** or **Set up my router automatically with UPnP** takes effect at once; the server restarts with the new choice.
 - The first time you start in Internet mode, Windows asks for administrator approval to add a firewall rule that accepts connections from outside your local subnet. That rule is removed when you switch back to LAN mode (again with approval) or uninstall.
 - CGNAT: if your router's internet-facing address is private or in `100.64.0.0/10`, people outside your network cannot reach you directly, and the panel says so.
 
 ## Ports and firewall
 
 <p align="center">
-  <img src="assets/ports.svg" alt="Network diagram: people on the internet reach the router's public IPv4 address, and the router forwards TCP 8080, UDP 9000 and UDP 9001 to the server PC, automatically with UPnP or by hand. People on the LAN connect to the server PC directly. TCP 9090 is the control panel, reachable only from 127.0.0.1 and never forwarded. Without a public IPv4, for example behind CGNAT, the server cannot be reached directly from outside." width="100%">
+  <img src="assets/ports.svg" alt="Network diagram: people on the internet reach the router's public IPv4 address, and the router forwards one port, UDP 8080, to the server PC, automatically with UPnP or by hand, on both routers if there are two. That port carries QUIC control, GCA4 voice and WebRTC screen sharing; people on the LAN connect to the server PC directly. TCP 9090 is the control panel, reachable only from 127.0.0.1 and never forwarded; TCP 8080 also listens, for the manager and to tell outdated apps to update, and needs no forwarding. Without a public IPv4, for example behind CGNAT, the server cannot be reached directly from outside." width="100%">
 </p>
 
 | Port (default) | Protocol | Used for | Forward in Internet mode? |
 | --- | --- | --- | --- |
-| `8080` | TCP | Control channel: HTTPS and WSS for sign-in, chat, files | Yes |
-| `9000` | UDP | Encrypted voice (GCA3) | Yes |
-| `9001` | UDP | Screen sharing (WebRTC, DTLS-SRTP) | Yes |
+| `8080` | UDP | Everything the app does: sign-in, chat and files (HTTPS and WSS over QUIC), encrypted voice (GCA4), screen sharing (WebRTC, DTLS-SRTP) | **Yes** |
+| `8080` | TCP | The control panel's own calls, and telling apps older than 1.0.5 to update | Optional |
 | `9090` | TCP | Control panel, `127.0.0.1` only | **No, never** |
 
-No other ports are needed. Onset does not need port 80 and does not request certificates from anyone.
+No other ports are needed. Forwarding TCP 8080 as well is harmless: an app that has not updated yet then shows *update the app* instead of failing to connect. Onset does not need port 80 and does not request certificates from anyone.
 
 **Windows Firewall.** The installer allows the server program on **Private** and **Domain** networks from your local subnet. If LAN devices cannot connect, check that the server PC's network profile is **Private** (**Settings → Network & internet → your connection → Network profile type**). Internet mode adds a separate rule after administrator approval, as described above.
 
@@ -173,11 +173,12 @@ Or run `Get-FileHash .\Onset-Host-1.0.0-x64.msi -Algorithm SHA256` and compare t
 ## Updating
 
 - The server does not update itself. To upgrade, download the newer MSI and run it. It replaces the installed version and keeps your data, identity and settings in `%LOCALAPPDATA%\Onset Host`. As a precaution, create a backup first.
+- **Upgrading from 1.0.1 or earlier.** The server now uses one UDP port instead of TCP 8080, UDP 9000 and UDP 9001. Your control port number (8080 by default) becomes that port, so invites you already sent keep working. With UPnP the router is updated for you, and the old UDP 9000 and 9001 mappings are removed. If you forward ports by hand, forward **UDP 8080** (on both routers if there are two); the UDP 9000 and 9001 forwards are no longer needed. Everyone needs Onset 1.0.5 or newer; older apps are told to update.
 
 ## Security and privacy
 
 - **Nothing is hosted by the developers.** There is no central service, relay or account system. The server runs entirely on your PC, and the apps connect to it directly.
-- **Encrypted connections.** The control channel is always HTTPS/WSS, secured by the server's pinned identity, in both LAN and Internet mode. Voice uses GCA3 (ChaCha20-Poly1305, keys for each session, replay protection), and the relay re-encrypts each packet for each listener. Screen sharing uses WebRTC's DTLS-SRTP.
+- **Encrypted connections.** The control channel is always HTTPS/WSS over QUIC (TLS 1.3), secured by the server's pinned identity, in both LAN and Internet mode. Voice uses GCA4 (ChaCha20-Poly1305, keys for each session, replay protection), and the relay re-encrypts each packet for each listener. Screen sharing uses WebRTC's DTLS-SRTP.
 - **You hold the data.** Messages, files and accounts are stored on your PC. As the operator you can technically access them, because this is not end-to-end encryption. Tell your users so.
 - **Accounts.** Passwords are stored as bcrypt hashes. Sessions use short-lived access tokens and rotating refresh tokens.
 - **Call diagnostics** (packet counts, buffer depth, loss, device names, app version) are sent by connected apps to *your* server only, and stored in a separate database on it. They never include audio, video, message text or file names. Untick **Keep call diagnostics** to stop collecting them.
@@ -194,13 +195,15 @@ The MSI is not Authenticode-signed, because the project does not buy a code-sign
 <details>
 <summary><b>"Automatic router setup failed"</b></summary>
 
-Your router did not answer UPnP. Turn on UPnP in the router's settings, or turn off **Set up my router automatically with UPnP**, forward TCP 8080, UDP 9000 and UDP 9001 (or your chosen ports) to this PC's LAN address, enter your public IPv4 address and choose **Save and restart**.
+Your router did not answer UPnP. Turn on UPnP in the router's settings, or turn off **Set up my router automatically with UPnP** and forward UDP 8080 (or your chosen port) to this PC's LAN address. The server finds your public address by itself.
+
+If the panel says your router is behind another router, UPnP can open the port only on the inner one. Turn UPnP off and forward the port on the modem that connects to the internet, and on the inner router too.
 </details>
 
 <details>
 <summary><b>"… is already mapped by another application"</b></summary>
 
-Another device or program already holds that port on your router. Choose different ports in the panel, or remove the old mapping in the router's settings.
+Another device or program already holds that port on your router. Choose a different port in the panel, or remove the old mapping in the router's settings.
 </details>
 
 <details>
@@ -218,9 +221,15 @@ If the panel reports *"the router has no public IPv4 address"*, your internet pr
 </details>
 
 <details>
-<summary><b>Chat works, but voice or screen sharing does not</b></summary>
+<summary><b>The app says the server "answered over TCP only" or "needs UDP port 8080"</b></summary>
 
-Chat uses the TCP port. Voice and screen sharing need their UDP ports (9000 and 9001 by default) to be reachable and, in Internet mode, forwarded. Also check that everyone runs version 1.0.
+The app reaches the server over UDP, and only the TCP port answered. Forward the port for **UDP**, not only TCP, to this PC's LAN address (on both routers if there are two), and check that nothing else on the router holds UDP 8080. A firewall or network that blocks UDP altogether, as some workplace networks do, cannot reach the server.
+</details>
+
+<details>
+<summary><b>People outside my network cannot see screen shares</b></summary>
+
+Screen sharing tells viewers your public address. Use **Internet** mode for people outside your network: the panel then shows the public address it found or the one you typed. In LAN mode the server offers only its local address. Also check that everyone runs Onset 1.0.5 or newer.
 </details>
 
 <details>
