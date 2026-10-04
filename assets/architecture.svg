@@ -1,12 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" role="img" aria-labelledby="t d">
   <title id="t">How Onset connects</title>
-  <desc id="d">Architecture diagram. Each Onset desktop client reaches your own Onset server on one UDP port, 8080 by default, and that one port carries all three kinds of traffic: the HTTPS and WebSocket control channel over QUIC, secured with TLS 1.3 and the server's self-signed identity, which the client pins; encrypted Opus voice using the GCA4 protocol with ChaCha20-Poly1305; and screen sharing using WebRTC with DTLS-SRTP. On the server they reach control and chat, the voice relay and the screen-share SFU, and data is stored in SQLite on the same PC. A local Server Manager on 127.0.0.1:9090 controls it, and in Internet mode the router forwards UDP 8080, mapped with UPnP or by hand. No third-party servers are involved.</desc>
+  <desc id="d">Architecture diagram. Each Onset desktop client reaches your own Onset server on one UDP port, 8080 by default, and that one port carries all three kinds of traffic: the HTTPS and WebSocket control channel over QUIC, secured with TLS 1.3 and the server's self-signed identity, which the client pins; encrypted Opus voice using the GCA4 protocol with ChaCha20-Poly1305; and screen sharing using WebRTC with DTLS-SRTP. On the server they reach control and chat, the voice relay and the screen-share SFU, and data is stored in SQLite on the same PC. The Onset Host control panel on 127.0.0.1:9090 controls it, and in Internet mode the router forwards UDP 8080, mapped with UPnP or by hand. No third-party servers are involved.</desc>
   <defs>
     <marker id="aw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#ededf0"/></marker>
     <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#46c07a"/></marker>
     <marker id="am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#a0a0a8"/></marker>
     <symbol id="i-monitor" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8.5 20h7M12 16v4"/></g></symbol>
     <symbol id="i-dns" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="16" height="6.5" rx="1.5"/></g><circle cx="8" cy="7.25" r="1.2" fill="currentColor"/><circle cx="8" cy="16.75" r="1.2" fill="currentColor"/></symbol>
+    <symbol id="i-voice" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="9" r="3.5"/><path d="M2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M17 6.5a4.5 4.5 0 0 1 0 6M19.8 4a8 8 0 0 1 0 11"/></g></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></g></symbol>
+    <symbol id="i-hp" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3" y="13.5" width="5" height="7" rx="2" fill="currentColor"/><rect x="16" y="13.5" width="5" height="7" rx="2" fill="currentColor"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="6.3" stroke-width="2"/><circle cx="12" cy="12" r="2.4" stroke-width="2"/><path stroke-width="3" d="M12 2.8v1.9M12 19.3v1.9M2.8 12h1.9M19.3 12h1.9M5.5 5.5l1.3 1.3M17.2 17.2l1.3 1.3M5.5 18.5l1.3-1.3M17.2 6.8l1.3-1.3"/></g></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></g></symbol>
     <symbol id="i-db" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></g></symbol>
     <symbol id="i-router" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 13V7M17 13V7"/></g><circle cx="7.5" cy="16.5" r="1.1" fill="currentColor"/><circle cx="11" cy="16.5" r="1.1" fill="currentColor"/></symbol>
@@ -29,12 +33,21 @@
   <use href="#i-monitor" x="62" y="160" width="30" height="30" color="#ededf0"/>
   <text x="62" y="222" class="t" font-size="17" font-weight="700" fill="#ededf0">Onset desktop</text>
   <text x="62" y="244" class="t" font-size="13" fill="#a0a0a8">One per person · Windows 10/11</text>
+  <!-- The strip as the app draws it: grip, server button, the call pill with
+       the room and its level, microphone and headphones, then settings. -->
   <rect x="62.5" y="262.5" width="215" height="29" rx="14.5" fill="#1a1a1d" stroke="#ffffff" stroke-opacity="0.16"/>
-  <g fill="#ededf0" fill-opacity="0.4"><circle cx="74" cy="272" r="1.2"/><circle cx="78.5" cy="272" r="1.2"/><circle cx="74" cy="277" r="1.2"/><circle cx="78.5" cy="277" r="1.2"/><circle cx="74" cy="282" r="1.2"/><circle cx="78.5" cy="282" r="1.2"/></g>
-  <rect x="120" y="268" width="84" height="18" rx="9" fill="#262629"/>
-  <circle cx="131" cy="277" r="3" fill="#46c07a"/>
-  <text x="140" y="281" class="t" font-size="10.5" font-weight="600" fill="#ededf0">Lobby</text>
-  <g fill="#c8c8cf"><circle cx="232" cy="277" r="2"/><circle cx="246" cy="277" r="2"/><circle cx="260" cy="277" r="2"/></g>
+  <g fill="#ededf0" fill-opacity="0.4"><circle cx="73" cy="272" r="1.1"/><circle cx="77" cy="272" r="1.1"/><circle cx="73" cy="277" r="1.1"/><circle cx="77" cy="277" r="1.1"/><circle cx="73" cy="282" r="1.1"/><circle cx="77" cy="282" r="1.1"/></g>
+  <use href="#i-dns" x="84" y="270" width="14" height="14" color="#ededf0"/>
+  <circle cx="96.5" cy="282.5" r="2.4" fill="#46c07a" stroke="#1a1a1d" stroke-width="1.5"/>
+  <rect x="104" y="270" width="1" height="14" fill="#ffffff" fill-opacity="0.16"/>
+  <rect x="111" y="267" width="128" height="20" rx="10" fill="#262629"/>
+  <rect x="111" y="267" width="94" height="20" rx="10" fill="#2c2c30"/>
+  <use href="#i-voice" x="117" y="271" width="12" height="12" color="#46c07a"/>
+  <text x="133" y="281" class="t" font-size="10.5" font-weight="600" fill="#ededf0">Lobby</text>
+  <g fill="#46c07a"><rect x="187" y="276" width="1.6" height="4" rx="0.8"/><rect x="190.5" y="273" width="1.6" height="10" rx="0.8"/><rect x="194" y="274.5" width="1.6" height="7" rx="0.8"/><rect x="197.5" y="272.5" width="1.6" height="11" rx="0.8"/></g>
+  <use href="#i-mic" x="209" y="271" width="12" height="12" color="#c8c8cf"/>
+  <use href="#i-hp" x="223" y="271" width="12" height="12" color="#c8c8cf"/>
+  <use href="#i-gear" x="253" y="270.5" width="13" height="13" color="#c8c8cf"/>
   <use href="#i-lock" x="62" y="312" width="16" height="16" color="#46c07a"/>
   <text x="86" y="325" class="t" font-size="12.5" font-weight="700" fill="#ededf0">Pinned server identity</text>
   <text x="62" y="348" class="m" font-size="12" fill="#82828b">54:82:88:0B:…:E4:2A:4C</text>
@@ -62,7 +75,7 @@
   <rect x="580.5" y="120.5" width="339" height="419" rx="18" fill="#131316" stroke="#ffffff" stroke-opacity="0.12"/>
   <use href="#i-dns" x="600" y="138" width="24" height="24" color="#ededf0"/>
   <text x="634" y="156" class="t" font-size="17" font-weight="700" fill="#ededf0">Your Onset server</text>
-  <text x="634" y="174" class="t" font-size="12" fill="#a0a0a8">on a Windows PC you control</text>
+  <text x="634" y="174" class="t" font-size="12" fill="#a0a0a8">Onset Host, on a Windows PC you control</text>
 
   <rect x="600.5" y="184.5" width="299" height="63" rx="12" fill="#1a1a1d" stroke="#ffffff" stroke-opacity="0.08"/>
   <text x="618" y="211" class="t" font-size="14" font-weight="700" fill="#ededf0">Control &amp; chat</text>
@@ -81,11 +94,11 @@
   <text x="656" y="478" class="t" font-size="14" font-weight="700" fill="#ededf0">SQLite + uploaded files</text>
   <text x="656" y="499" class="t" font-size="12" fill="#a0a0a8">stored on the same PC</text>
 
-  <!-- Manager -->
+  <!-- Control panel -->
   <line x1="920" y1="238" x2="960" y2="238" stroke="#82828b" stroke-width="1.5" stroke-dasharray="4 4"/>
   <rect x="960.5" y="150.5" width="199" height="175" rx="16" fill="#0f0f11" stroke="#ffffff" stroke-opacity="0.1"/>
   <use href="#i-panel" x="980" y="168" width="22" height="22" color="#ededf0"/>
-  <text x="1010" y="184" class="t" font-size="14.5" font-weight="700" fill="#ededf0">Server Manager</text>
+  <text x="1010" y="184" class="t" font-size="14.5" font-weight="700" fill="#ededf0">Control panel</text>
   <text x="980" y="210" class="m" font-size="11.5" fill="#a0a0a8">127.0.0.1:9090</text>
   <text x="980" y="228" class="t" font-size="12" fill="#82828b">opens only on this PC</text>
   <g class="t" font-size="12.5" fill="#c8c8cf">
