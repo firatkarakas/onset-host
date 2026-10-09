@@ -18,7 +18,7 @@
 
 Onset Host turns a Windows PC into a private server for [Onset](https://github.com/firatkarakas/onset-client): voice calls, text rooms, file sharing and screen sharing for your group. One installer sets up the server and a control panel that opens in your browser and is reachable only from that PC. You do not need a domain name, a certificate authority or a paid service. Each server creates its own identity, and the desktop app pins it.
 
-This repository hosts the server installer and its release notes. Downloads are on the [Releases page](https://github.com/firatkarakas/onset-host/releases/latest).
+This repository hosts the server installer and its release notes. Downloads are on the [Releases page](https://github.com/firatkarakas/onset-host/releases/latest). Onset Host is free; by downloading or installing it you agree to its [license](LICENSE.txt), and it works as the [privacy policy](https://onsetvoice.com/privacy/) describes.
 
 
 ## Contents
@@ -42,8 +42,10 @@ This repository hosts the server installer and its release notes. Downloads are 
 
 ## What you get
 
-- **The server**: accounts, roles and moderation, persistent text rooms, direct messages, file storage, an encrypted voice relay (GCA4 over UDP) and a WebRTC forwarding unit (SFU) for screen sharing. Everything is reached on **one UDP port**. Data is stored in SQLite on the same PC.
-- **A local control panel** at `http://127.0.0.1:9090`, opened by the **Onset Host** shortcut. Use it to start, stop and restart the server, choose LAN or Internet mode, set the port, manage the owner and invite tokens, choose the registration policy and message retention, turn call diagnostics on or off, start with Windows, read the server log and make encrypted backups on a schedule or on demand. It also shows the server's identity fingerprint and a ready-to-share invite.
+- **The server**: accounts, roles and moderation, persistent text rooms, direct messages, emoji reactions, profile pictures, file storage, an encrypted voice relay (GCA4 over UDP) and a WebRTC forwarding unit (SFU) for screen sharing: up to five shares per voice room, each with the list of who is watching it. Everything is reached on **one UDP port**. Data is stored in SQLite on the same PC.
+- **End-to-end encrypted calls** (from 1.0.5). When everyone in a voice room uses the Onset app 1.0.9 or later, the room's voice and screen sharing are encrypted so that not even your server can read them; the server only relays the key exchange (DAVE) and never holds a key. You choose **On** (default), **Required** or **Off** in the panel.
+- **Updates itself** (from 1.0.5). A signed update installs through the **Onset Host Update** service without an administrator prompt, by default only after nobody has been in a voice room for 10 minutes. See [Updating](#updating).
+- **A local control panel** at `http://127.0.0.1:9090`, opened by the **Onset Host** shortcut. It opens on what matters first: whether the server is up, the invite and the steps people follow to join, the server's identity fingerprint, and anything that needs attention. Its pages are **Connection** (LAN or Internet, port, UPnP), **Access** (registration, tokens, history), **Calls** (end-to-end encryption, call diagnostics), **Backups**, **Updates** and **Log**.
 - **Automatic router setup** in Internet mode. UPnP finds your public IPv4 address and maps the one UDP port. Manual port forwarding also works, and then the server finds your public address by itself.
 - **Scheduled, encrypted backups** (`.gcb`, AES-GCM) with automatic pruning. The key is protected with Windows DPAPI, and you can export a recovery key.
 - **Self-healing.** If the server process crashes, the panel restarts it with backoff, and stops trying (with a clear message) if it keeps crashing. Logs rotate on their own, and a restart tells connected apps to reconnect.
@@ -59,13 +61,13 @@ This repository hosts the server installer and its release notes. Downloads are 
 - A PC that stays on while people use the server.
 - **LAN mode**: the people connecting are on the same local network.
 - **Internet mode**: a **public IPv4 address** on your router, plus a router with UPnP enabled or one where you can forward ports yourself. If your provider uses carrier-grade NAT (CGNAT), you cannot host directly. See [No public IPv4](#troubleshooting).
-- Everyone connecting uses the Onset desktop app **1.0.5 or newer** ([download](https://github.com/firatkarakas/onset-client/releases/latest)). Older apps are told to update; the app updates itself.
+- **The people who connect** use the **Onset app 1.0.5 or newer** ([download](https://github.com/firatkarakas/onset-client/releases/latest), or [Onset Voice](https://apps.microsoft.com/detail/9MVQJC12LBKD) from the Microsoft Store). Older apps are told to update; the app updates itself. Choosing between several shares in a room needs the Onset app 1.0.7, seeing who is watching needs 1.0.8, and **end-to-end encrypted calls need the Onset app 1.0.9** for everyone in the call (with the Onset app 1.0.5 to 1.0.8, calls work but are not encrypted).
 
 ## Install
 
 1. Open the [latest release](https://github.com/firatkarakas/onset-host/releases/latest) and download `Onset-Host-<version>-x64.msi` and `SHA256SUMS`.
 2. Optional, but a good idea: [check the file's hash](#verify-your-download).
-3. Run the MSI and approve the administrator prompt. The installer is not signed with a paid code-signing certificate, so SmartScreen may show **Windows protected your PC**. After you have checked the hash, choose **More info**, then **Run anyway**.
+3. Run the MSI and approve the administrator prompt (the installer also sets up the update service, so later updates need no approval). The installer is not signed with a paid code-signing certificate, so SmartScreen may show **Windows protected your PC**. After you have checked the hash, choose **More info**, then **Run anyway**.
 4. The installer puts the server in `C:\Program Files\Onset Host`, adds **Onset Host** shortcuts to the desktop and Start menu, and adds Windows Firewall rules that let devices on your local subnet reach the server on Private and Domain networks.
 
 ## First start
@@ -75,17 +77,17 @@ This repository hosts the server installer and its release notes. Downloads are 
 </p>
 
 1. **Open the shortcut.** It starts the server in the background and opens the control panel in your browser. The server begins in **LAN mode**, with invite-only registration and history kept indefinitely. Opening the shortcut again just reopens the panel.
-2. **Create the owner account.** Install the [desktop app](https://github.com/firatkarakas/onset-client/releases/latest), click **Copy invite** in the panel and paste the invite into the app's **Server address**. Choose **Register a new account**, then paste the **First owner setup token** from the panel into the **Bootstrap token** field. The first account created becomes the server **owner**.
+2. **Create the owner account.** Install the [desktop app](https://github.com/firatkarakas/onset-client/releases/latest), click **Copy invite** in the panel and paste the invite into the app's **Server address**. Choose **Register a new account**, then paste the **Owner setup token** from the panel (under **Access**) into the **Bootstrap token** field. The first account created becomes the server **owner**.
 3. **Invite people.** Send them the **invite** and the **invite token**. Each person pastes the invite into Server address, chooses **Register a new account** and pastes the invite token into **Bootstrap token**.
-4. **Opening to the internet?** Switch **Reach** to **Internet** and choose **Save and restart**. The panel then shows the public address and an updated invite. Send that one to people outside your network.
+4. **Opening to the internet?** On **Connection**, switch **Reach** to **Internet** and press **Save**. The server restarts, and the panel shows the public address and an updated invite. Send that one to people outside your network.
 
 ## The control panel
 
 <p align="center">
-  <img src="assets/control-panel.svg" alt="Illustration of the control panel. The top card shows the client address https://203.0.113.42:8080, the invite with a Copy invite button, the server identity SHA-256 fingerprint, and Restart server, Start, Stop and Create backup buttons. A side card shows process, uptime, reach and router mapping. Below are the Connection form (reach, public IPv4 found automatically, the one UDP port 8080, automatic UPnP, and a note that UPnP forwards UDP 8080 and TCP 8080, which tells outdated apps to update), the Access and data form (registration, history retention, backup folder, first owner setup token, invite token, call diagnostics, start with Windows) and the server log, whose start-up lines say UDP 8080 carries QUIC control, voice and screen sharing." width="100%">
+  <img src="assets/control-panel.png" alt="The control panel's Overview page. At the top, Onset Host with the server shown Online and Restart and Stop buttons. On the left the pages: Overview, Connection, Access, Calls, Backups, Updates and Log. The Invite people card shows the invite address with a Copy invite button, three steps for joining (send the invite, paste it into Server address and choose Create an account, and paste the invite token into the Bootstrap token field), and the server identity SHA-256 fingerprint. Beside it, the server's status and reach, the Start with Windows switch, and a summary of sign-ups, end-to-end encrypted calls, backups and updates." width="100%">
 </p>
 
-The panel listens only on `127.0.0.1:9090`, so no other device can open it. Changes take effect with **Save and restart**, which briefly interrupts calls if the server is running.
+The panel listens only on `127.0.0.1:9090`, so no other device can open it. Changes wait in a bar at the bottom with **Save** and **Discard**, which says whether saving restarts the server: most settings reach the server and restart it, which briefly interrupts calls, while backup settings, **Start with Windows** and **Install updates automatically** apply without a restart. Tokens are hidden until you choose **Show**, and **Copy** works without showing them. **Stop**, **Restart** and **Install now** ask before acting.
 
 | Setting | What it does |
 | --- | --- |
@@ -96,9 +98,12 @@ The panel listens only on `127.0.0.1:9090`, so no other device can open it. Chan
 | **Registration** | *Invite token* (default): new accounts need the invite token. *Closed*: nobody new can register. *Open*: anyone who can reach the server can register. |
 | **Delete history after days** | `0` (default) keeps history until users delete it. Any other number deletes older messages automatically. |
 | **Backup folder** | Optional absolute path, for example another drive or a network share. If left empty, backups go to the `backups` folder in the server's data folder. |
-| **First owner setup token** / **Invite token** | Copy buttons for the two registration secrets. |
+| **Automatic backup** / **Backup time** / **Backups to keep** | *Every day* (default, at 04:00 on this PC's clock), *Every week* or *Off*, and how many archives to keep (default 14). |
+| **Owner setup token** / **Invite token** | The two registration secrets, with **Show** and **Copy**. **Replace…** makes a new invite token; after saving, the old one no longer works for new sign-ups, and existing accounts are not affected. |
+| **End-to-end encrypted calls** | *On* (default): calls are encrypted whenever everyone in them uses the Onset app 1.0.9 or later; a room is unencrypted while someone in it uses an older app. *Required*: older apps cannot join voice rooms and are asked to update. *Off*: calls work as in 1.0.4; use it only if encrypted calls cause problems, the apps need no update for it. |
 | **Keep call diagnostics** | Lets connected apps report call-quality statistics to this server. Turn it off to stop collecting them. |
 | **Start with Windows** | Starts the server in the background when you sign in to Windows. |
+| **Install updates automatically** | On by default. See [Updating](#updating). |
 
 ## LAN or Internet
 
@@ -106,9 +111,9 @@ The panel listens only on `127.0.0.1:9090`, so no other device can open it. Chan
 
 **Internet mode** makes the server reachable at your public IPv4 address:
 
-- With **UPnP** on (the default), the server finds your public address and maps the UDP port on your router, plus the TCP port of the same number, which only tells outdated apps to update. The mappings last one hour and is renewed every 20 minutes while the server runs. Existing mappings that belong to another device are never overwritten; the panel reports the conflict instead.
+- With **UPnP** on (the default), the server finds your public address and maps the UDP port on your router, plus the TCP port of the same number, which only tells outdated apps to update. The mappings last one hour and are renewed every 20 minutes while the server runs. Existing mappings that belong to another device are never overwritten; the panel reports the conflict instead.
 - Without UPnP, forward the UDP port (8080 by default) to this PC yourself; behind two routers, forward it on both. Leave **Public IPv4** empty and the server finds your public address by itself: it asks the project's website (`onsetvoice.com`, served by Cloudflare) which address the request came from, at start and every ten minutes. Nothing else is sent. If the address changes, screen sharing follows it without a restart.
-- Changing **Reach** or **Set up my router automatically with UPnP** takes effect at once; the server restarts with the new choice.
+- Changing **Reach** or **Set up my router automatically with UPnP** takes effect when you save; the server restarts with the new choice.
 - The first time you start in Internet mode, Windows asks for administrator approval to add a firewall rule that accepts connections from outside your local subnet. That rule is removed when you switch back to LAN mode (again with approval) or uninstall.
 - CGNAT: if your router's internet-facing address is private or in `100.64.0.0/10`, people outside your network cannot reach you directly, and the panel says so.
 
@@ -136,7 +141,7 @@ No other ports are needed. Forwarding TCP 8080 as well is harmless: an app that 
 
 ## Backups and restore
 
-The panel makes **scheduled backups** — daily at 04:00 by default, or weekly, or off — and keeps the newest 14 (both adjustable under **Access and data**). **Create backup** makes one right away. Each run writes an encrypted archive (`onset-<date>-<time>-….gcb`) to the backup folder with the settings, the database and uploaded files, and the server identity. The server keeps running: it takes a consistent snapshot of its databases while calls and chat continue, so nobody is disconnected. A missed scheduled backup runs once when the panel next starts. Point the backup folder at another drive or a network share so a disk failure does not take the backups with it.
+The panel makes **scheduled backups** — daily at 04:00 by default, or weekly, or off — and keeps the newest 14 (both adjustable under **Backups**). **Back up now** makes one right away. Each run writes an encrypted archive (`onset-<date>-<time>-….gcb`) to the backup folder with the settings, the database and uploaded files, and the server identity. The server keeps running: it takes a consistent snapshot of its databases while calls and chat continue, so nobody is disconnected. A missed scheduled backup runs once when the panel next starts. Point the backup folder at another drive or a network share so a disk failure does not take the backups with it.
 
 Archives are encrypted with AES-GCM. The key is stored as `backup-key.dpapi` in the server's data folder, protected by Windows DPAPI for your Windows user, and is never placed inside an archive. **After your first backup, export a recovery key**, or the archives can be opened only by the same Windows user on the same PC:
 
@@ -162,26 +167,29 @@ The exported `.key` file is a plain secret, and so is a decrypted ZIP. Store the
 Each release includes a `SHA256SUMS` file. In PowerShell, from the folder you downloaded to:
 
 ```powershell
-$file = 'Onset-Host-1.0.0-x64.msi'   # the file you downloaded
+$file = 'Onset-Host-1.0.5-x64.msi'   # the file you downloaded
 $expected = (Select-String -Path .\SHA256SUMS -Pattern ([regex]::Escape($file) + '$')).Line.Split(' ')[0]
 $actual = (Get-FileHash ".\$file" -Algorithm SHA256).Hash
 if ($actual -eq $expected) { 'OK: the hash matches' } else { 'MISMATCH: do not install this file' }
 ```
 
-Or run `Get-FileHash .\Onset-Host-1.0.0-x64.msi -Algorithm SHA256` and compare the result with the matching line in `SHA256SUMS` yourself (upper and lower case do not matter). The hash confirms that your download matches the published file. It does not replace a code-signing certificate, which this project does not have.
+Or run `Get-FileHash .\Onset-Host-1.0.5-x64.msi -Algorithm SHA256` and compare the result with the matching line in `SHA256SUMS` yourself (upper and lower case do not matter). The hash confirms that your download matches the published file. It does not replace a code-signing certificate, which this project does not have.
 
 ## Updating
 
-- The server does not update itself. To upgrade, download the newer MSI and run it. It replaces the installed version and keeps your data, identity and settings in `%LOCALAPPDATA%\Onset Host`. As a precaution, create a backup first.
+- **From 1.0.5 the server updates itself.** The control panel checks this repository for a new release every six hours. The **Onset Host Update** Windows service that the installer sets up downloads it, checks its signature against the Onset release key built into Onset Host and its SHA-256, and installs it without asking for administrator approval. With **Install updates automatically** on (the default), that happens only after nobody has been in a voice room for 10 minutes, never during a call; the server restarts for the install, the control panel comes back on its own, and the apps reconnect. If an update fails, the version you had stays installed and the panel says why. **Install now** under **Updates** installs at once; turn the automatic option off to update only that way. Your data, identity and settings in `%LOCALAPPDATA%\Onset Host` are kept.
+- You can always upgrade by hand: download the newer MSI and run it. It replaces the installed version and keeps your data, identity and settings. As a precaution, create a backup first. Installing stops the server and disconnects anyone in a call; open the **Onset Host** shortcut afterwards to start it again, and the apps reconnect on their own. Upgrading from 1.0.4 or earlier to 1.0.5 is done this way, since earlier versions have no update service. Each release's notes say which Onset version it works with.
 - **Upgrading from 1.0.1 or earlier.** The server now uses one UDP port instead of TCP 8080, UDP 9000 and UDP 9001. Your control port number (8080 by default) becomes that port, so invites you already sent keep working. With UPnP the router is updated for you, and the old UDP 9000 and 9001 mappings are removed. If you forward ports by hand, forward **UDP 8080** (on both routers if there are two); the UDP 9000 and 9001 forwards are no longer needed. Everyone needs Onset 1.0.5 or newer; older apps are told to update.
 
 ## Security and privacy
 
-- **Nothing is hosted by the developers.** There is no central service, relay or account system. The server runs entirely on your PC, and the apps connect to it directly.
+- **Nothing is hosted by the developers.** There is no central service, relay or account system. The server runs entirely on your PC, the apps connect to it directly, and the server sends the developers nothing; its only request to the project's website is the public address lookup described under [LAN or Internet](#lan-or-internet), which Cloudflare answers. To update itself it downloads this repository's latest release from GitHub, as any download would. (Onset apps from 1.0.9 send the developers anonymous performance data of their own, which can include the Onset Host version they are connected to but never the server's address; see the [privacy policy](https://onsetvoice.com/privacy/).)
 - **Encrypted connections.** The control channel is always HTTPS/WSS over QUIC (TLS 1.3), secured by the server's pinned identity, in both LAN and Internet mode. Voice uses GCA4 (ChaCha20-Poly1305, keys for each session, replay protection), and the relay re-encrypts each packet for each listener. Screen sharing uses WebRTC's DTLS-SRTP.
-- **You hold the data.** Messages, files and accounts are stored on your PC. As the operator you can technically access them, because this is not end-to-end encryption. Tell your users so.
+- **End-to-end encrypted calls** (from 1.0.5, with the Onset app 1.0.9). Voice, screen sharing and share audio are encrypted with keys only the people in the call hold; your server relays the key exchange but never has a key, so it cannot listen. The apps give the keys only to the people they show in the room, and everyone in a call can compare a 30-digit code: when it matches, only the people shown in the room can listen. Encryption hides what is said and shown, not who is in a call or when.
+- **You hold the data.** Messages, files and accounts are stored on your PC and are not end-to-end encrypted, so as the operator you can technically access them. The same goes for a call that is not end-to-end encrypted (someone in it uses an older app, or encryption is turned off). Tell your users so.
 - **Accounts.** Passwords are stored as bcrypt hashes. Sessions use short-lived access tokens and rotating refresh tokens.
 - **Call diagnostics** (packet counts, buffer depth, loss, device names, app version) are sent by connected apps to *your* server only, and stored in a separate database on it. They never include audio, video, message text or file names. Untick **Keep call diagnostics** to stop collecting them.
+- **Who is in a room, who is watching.** Everyone signed in to your server can see who is in each voice room and who is watching each screen share.
 - **Logs.** The server log does not contain passwords or message contents.
 
 ## Troubleshooting
@@ -252,7 +260,7 @@ Choose **Stop** in the panel. The control panel process keeps running in the bac
 
 ## Uninstall
 
-Open **Settings → Apps → Installed apps**, find **Onset Host** and choose **Uninstall**. The uninstaller stops the server, removes its **Start with Windows** entry and the Internet-mode firewall rule, and deletes the program files. Your data in `%LOCALAPPDATA%\Onset Host` (database, uploads, identity, settings, backups stored there) is **kept**, so a reinstall keeps the same identity. Delete that folder yourself to remove everything, after taking a backup if you might need it. Router mappings made with UPnP use a one-hour lease and normally expire on their own; ports you forwarded by hand stay until you remove them in the router.
+Open **Settings → Apps → Installed apps**, find **Onset Host** and choose **Uninstall**. The uninstaller stops the server, removes its **Start with Windows** entry, the Internet-mode firewall rule and the **Onset Host Update** service with its download folder (`%ProgramData%\Onset Host`), and deletes the program files. Your data in `%LOCALAPPDATA%\Onset Host` (database, uploads, identity, settings, backups stored there) is **kept**, so a reinstall keeps the same identity. Delete that folder yourself to remove everything, after taking a backup if you might need it. Router mappings made with UPnP use a one-hour lease and normally expire on their own; ports you forwarded by hand stay until you remove them in the router.
 
 ## Support
 
@@ -270,3 +278,5 @@ This version of Onset Host is freeware: free to use, and you may share unmodifie
 Onset Host is built on open-source components. Their licenses and full license texts are in `THIRD-PARTY-NOTICES.md`, which is installed next to the program and attached to every release.
 
 This repository contains release files only. The source code is not published here.
+
+Onset is an independent project and is not affiliated with, endorsed by or sponsored by Discord, TeamSpeak, Mumble, Microsoft, Cloudflare or GitHub. Discord is a trademark of Discord Inc.; Microsoft, Windows, Microsoft Store, Microsoft Edge and WebView2 are trademarks of the Microsoft group of companies; other names are trademarks of their owners.
