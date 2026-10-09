@@ -3,10 +3,13 @@ Onset Freeware License
 Copyright (c) 2026 Fırat Karakaş. All rights reserved.
 
 This license covers the Onset desktop client, Onset Host and their
-installers, as distributed in binary form (the "Software"). It applies to the
-version of the Software it is distributed with. This version of the Software
-is provided free of charge. Copies you receive under this license stay under
-it: later changes to the terms do not take these rights away from you.
+installers, as distributed in binary form (the "Software"). The Software is
+licensed to you by Fırat Karakaş (the "author"; support@onsetvoice.com). By
+downloading, installing or using the Software you agree to this license. It
+applies to the version of the Software it is distributed with. This version
+of the Software is provided free of charge. Copies you receive under this
+license stay under it: later changes to the terms do not take these rights
+away from you.
 
 1. Use. You may download, install and use the Software free of charge, for any
    lawful purpose, personal or within an organization, on any number of
@@ -27,26 +30,59 @@ it: later changes to the terms do not take these rights away from you.
 
 5. Self-hosting. Onset Host runs on a computer you control. Whoever runs
    a server is responsible for it, for the accounts and content it holds, and
-   for complying with the laws that apply to it.
+   for complying with the laws that apply to it, including data protection
+   law for the personal data of its users: their accounts, messages and
+   files, the IP addresses in its logs, and call diagnostics such as audio
+   device names. The author does not receive or host that data and cannot
+   see, change or delete it.
 
 6. Later versions. The author may offer later versions of the Software under
    different terms, including paid licenses, usage limits or separate
    commercial terms. Those terms apply only to those later versions. They do
    not change this license for the version you received it with, and nothing
-   here promises that any later version will be free of charge.
+   here promises that any later version will be free of charge. The Software
+   never installs a later version offered under different license terms on
+   its own: it asks you first.
 
 7. Trademarks. The names "Onset" and "Onset Host" and the Onset logo are not
    licensed to you. This license gives you no right to use them, except to
    refer to the Software truthfully.
 
-8. No warranty. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+8. Privacy. Unless you switch it off, the desktop client sends the author
+   anonymous performance data. What it sends, what Onset Host sends, and how
+   both are handled is described in the privacy policy at
+   https://onsetvoice.com/privacy/.
 
-9. Limitation of liability. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
-   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-   USE OR OTHER DEALINGS IN THE SOFTWARE, INCLUDING LOSS OF DATA.
+9. No warranty. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE
+   SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. This does not affect
+   any right that consumer law gives you and that cannot be excluded by
+   agreement.
 
-10. Termination. These permissions end automatically if you break the terms
+10. Limitation of liability. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE
+    LAW, IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR
+    OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+    ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    OTHER DEALINGS IN THE SOFTWARE, INCLUDING LOSS OF DATA. This does not
+    limit or exclude: (a) liability for death or personal injury;
+    (b) liability for intent, deliberate recklessness or gross negligence;
+    (c) liability under product liability law; or (d) any other liability,
+    or any right a consumer has, that applicable law does not allow to be
+    limited or excluded.
+
+11. Export. The Software contains encryption. You are responsible for
+    complying with the export control and sanctions laws that apply to your
+    use and distribution of it.
+
+12. Termination. These permissions end automatically if you break the terms
     above. You must then stop using the Software and delete your copies.
+
+13. Severability. If any part of this license is held unenforceable, the rest
+    remains in effect.
+
+14. Governing law. This license is governed by the laws of the Netherlands,
+    without regard to their conflict-of-law rules. If you are a consumer,
+    this does not take away the protection that the mandatory laws of the
+    country where you habitually live give you; you may rely on them in
+    addition to Dutch law.
