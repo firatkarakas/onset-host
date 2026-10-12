@@ -48,9 +48,9 @@ away from you.
    licensed to you. This license gives you no right to use them, except to
    refer to the Software truthfully.
 
-8. Privacy. Unless you switch it off, the desktop client sends the author
-   anonymous performance data. What it sends, what Onset Host sends, and how
-   both are handled is described in the privacy policy at
+8. Privacy. The desktop client sends the author anonymous performance data
+   only if you allow it. What it sends, what Onset Host sends, and how both
+   are handled is described in the privacy policy at
    https://onsetvoice.com/privacy/.
 
 9. No warranty. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE
