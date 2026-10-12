@@ -167,13 +167,13 @@ The exported `.key` file is a plain secret, and so is a decrypted ZIP. Store the
 Each release includes a `SHA256SUMS` file. In PowerShell, from the folder you downloaded to:
 
 ```powershell
-$file = 'Onset-Host-1.0.5-x64.msi'   # the file you downloaded
+$file = 'Onset-Host-1.0.6-x64.msi'   # the file you downloaded
 $expected = (Select-String -Path .\SHA256SUMS -Pattern ([regex]::Escape($file) + '$')).Line.Split(' ')[0]
 $actual = (Get-FileHash ".\$file" -Algorithm SHA256).Hash
 if ($actual -eq $expected) { 'OK: the hash matches' } else { 'MISMATCH: do not install this file' }
 ```
 
-Or run `Get-FileHash .\Onset-Host-1.0.5-x64.msi -Algorithm SHA256` and compare the result with the matching line in `SHA256SUMS` yourself (upper and lower case do not matter). The hash confirms that your download matches the published file. It does not replace a code-signing certificate, which this project does not have.
+Or run `Get-FileHash .\Onset-Host-1.0.6-x64.msi -Algorithm SHA256` and compare the result with the matching line in `SHA256SUMS` yourself (upper and lower case do not matter). The hash confirms that your download matches the published file. It does not replace a code-signing certificate, which this project does not have.
 
 ## Updating
 
